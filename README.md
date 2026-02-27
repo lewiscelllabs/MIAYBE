@@ -160,7 +160,7 @@ Everything else (field order, types, validation, required/optional badges, array
 
 ## Relationship to MCBO
 
-MIAYBE fields map directly to the [MCBO (Mammalian Cell Bioprocessing Ontology)](https://github.com/uga-repos/mcbo) data dictionary, enabling ontology-driven knowledge graphs and multi-agent LLM query pipelines over pooled bioprocessing datasets.
+MIAYBE fields map directly to the [MCBO (Mammalian Cell Bioprocessing Ontology)](https://github.com/lewiscelllabs/mcbo) data dictionary, enabling ontology-driven knowledge graphs and multi-agent LLM query pipelines over pooled bioprocessing datasets.
 
 ---
 
