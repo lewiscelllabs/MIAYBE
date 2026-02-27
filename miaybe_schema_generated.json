@@ -1,0 +1,895 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/uga-repos/mcbo/schemas/miaybe_1.3.json",
+  "title": "MIAYBE 1.3 Dashboard Schema",
+  "description": "JSON Schema for a data entry dashboard compliant with MIAYBE 1.3 (Minimum Information About Your Bioprocessing Experiment). Generated from specification dated 2026-02-10**. Fields tagged with MIAYBE status: R=required, M=recommended, O=optional.",
+  "type": "object",
+  "required": [
+    "experiment",
+    "cellLine",
+    "cultureConditions",
+    "processParameters",
+    "sampling",
+    "analyticalMethods",
+    "product"
+  ],
+  "properties": {
+    "experiment": {
+      "title": "Experiment Description",
+      "description": "Section 3.1",
+      "type": "object",
+      "required": [
+        "experimentID",
+        "studyID",
+        "experimentDate",
+        "experimentObjective"
+      ],
+      "properties": {
+        "experimentID": {
+          "type": "string",
+          "title": "ExperimentID",
+          "description": "[E1, R] Unique identifier for the experiment",
+          "miaybe": {
+            "id": "E1",
+            "status": "R"
+          }
+        },
+        "studyID": {
+          "type": "string",
+          "title": "StudyID",
+          "description": "[E2, R] Identifier grouping related experiments",
+          "miaybe": {
+            "id": "E2",
+            "status": "R",
+            "cqMapping": [
+              "All CQs"
+            ]
+          }
+        },
+        "experimentDate": {
+          "type": "string",
+          "title": "ExperimentDate",
+          "description": "[E3, R] Start date of the experiment",
+          "miaybe": {
+            "id": "E3",
+            "status": "R"
+          }
+        },
+        "experimentObjective": {
+          "type": "string",
+          "title": "ExperimentObjective",
+          "description": "[E4, R] Primary scientific question",
+          "miaybe": {
+            "id": "E4",
+            "status": "R"
+          }
+        },
+        "investigatorName": {
+          "type": "string",
+          "title": "InvestigatorName",
+          "description": "[E5, M] Lead researcher/operator",
+          "miaybe": {
+            "id": "E5",
+            "status": "M"
+          }
+        },
+        "institutionName": {
+          "type": "string",
+          "title": "InstitutionName",
+          "description": "[E6, M] Performing institution",
+          "miaybe": {
+            "id": "E6",
+            "status": "M"
+          }
+        },
+        "fundingSource": {
+          "type": "string",
+          "title": "FundingSource",
+          "description": "[E7, O] Grant or funding information",
+          "miaybe": {
+            "id": "E7",
+            "status": "O"
+          }
+        },
+        "publicationDOI": {
+          "type": "string",
+          "pattern": "^10\\.\\d{4,}(\\.\\d+)*/.*$",
+          "title": "PublicationDOI",
+          "description": "[E8, O] Associated publication DOI",
+          "miaybe": {
+            "id": "E8",
+            "status": "O"
+          }
+        }
+      }
+    },
+    "cellLine": {
+      "title": "Cell Line Information",
+      "description": "Section 3.2",
+      "type": "object",
+      "required": [
+        "cellLine",
+        "host",
+        "cellLineSource",
+        "cloneID"
+      ],
+      "properties": {
+        "cellLine": {
+          "type": "string",
+          "title": "CellLine",
+          "description": "[C1, R] Cell line name/designation",
+          "miaybe": {
+            "id": "C1",
+            "status": "R",
+            "cqMapping": [
+              "CQ1-8"
+            ]
+          }
+        },
+        "host": {
+          "type": "string",
+          "title": "Host",
+          "description": "[C2, R] Base organism",
+          "miaybe": {
+            "id": "C2",
+            "status": "R"
+          }
+        },
+        "cellLineSource": {
+          "type": "string",
+          "title": "CellLineSource",
+          "description": "[C3, R] Origin/vendor of cell line",
+          "miaybe": {
+            "id": "C3",
+            "status": "R"
+          }
+        },
+        "cloneID": {
+          "type": "string",
+          "title": "CloneID",
+          "description": "[C4, R] Specific clone identifier",
+          "miaybe": {
+            "id": "C4",
+            "status": "R",
+            "cqMapping": [
+              "CQ4",
+              "CQ8"
+            ]
+          }
+        },
+        "parentCellLine": {
+          "type": "string",
+          "title": "ParentCellLine",
+          "description": "[C5, M] Parental line if derived",
+          "miaybe": {
+            "id": "C5",
+            "status": "M"
+          }
+        },
+        "geneticModification": {
+          "type": "string",
+          "title": "GeneticModification",
+          "description": "[C6, M] Transgenes or knockouts",
+          "miaybe": {
+            "id": "C6",
+            "status": "M"
+          }
+        },
+        "selectionMarker": {
+          "type": "string",
+          "title": "SelectionMarker",
+          "description": "[C7, M] Selection system used",
+          "miaybe": {
+            "id": "C7",
+            "status": "M"
+          }
+        },
+        "passageNumber": {
+          "type": "string",
+          "title": "PassageNumber",
+          "description": "[C8, M] Passage at experiment start",
+          "miaybe": {
+            "id": "C8",
+            "status": "M"
+          }
+        },
+        "producer": {
+          "type": "boolean",
+          "title": "Producer",
+          "description": "[C9, O] Whether line is a producer",
+          "miaybe": {
+            "id": "C9",
+            "status": "O",
+            "cqMapping": [
+              "CQ2"
+            ]
+          }
+        },
+        "stability": {
+          "type": "string",
+          "title": "Stability",
+          "description": "[C10, O] Expression stability status",
+          "miaybe": {
+            "id": "C10",
+            "status": "O"
+          }
+        },
+        "cellBankID": {
+          "type": "string",
+          "title": "CellBankID",
+          "description": "[C11, O] Reference to banked cells",
+          "miaybe": {
+            "id": "C11",
+            "status": "O"
+          }
+        },
+        "thawDate": {
+          "type": "string",
+          "format": "date",
+          "title": "ThawDate",
+          "description": "[C12, O] Date cells were thawed from bank",
+          "miaybe": {
+            "id": "C12",
+            "status": "O"
+          }
+        }
+      }
+    },
+    "cultureConditions": {
+      "title": "Culture Conditions",
+      "description": "Section 3.3",
+      "type": "object",
+      "required": [
+        "temperature_C",
+        "pH",
+        "dissolvedOxygen_airsat",
+        "baseMedium",
+        "mediaSupplements"
+      ],
+      "properties": {
+        "temperature_C": {
+          "type": "number",
+          "minimum": 25,
+          "maximum": 42,
+          "title": "Temperature (°C)",
+          "description": "[CC1, R] Culture temperature",
+          "miaybe": {
+            "id": "CC1",
+            "status": "R",
+            "unit": "°C",
+            "cqMapping": [
+              "CQ1"
+            ]
+          }
+        },
+        "pH": {
+          "type": "number",
+          "minimum": 6.0,
+          "maximum": 8.0,
+          "title": "pH",
+          "description": "[CC2, R] Culture pH (setpoint or measured)",
+          "miaybe": {
+            "id": "CC2",
+            "status": "R",
+            "cqMapping": [
+              "CQ1"
+            ]
+          }
+        },
+        "dissolvedOxygen_airsat": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "title": "DissolvedOxygen (% air sat.)",
+          "description": "[CC3, R] DO level",
+          "miaybe": {
+            "id": "CC3",
+            "status": "R",
+            "unit": "% air sat.",
+            "cqMapping": [
+              "CQ1"
+            ]
+          }
+        },
+        "baseMedium": {
+          "type": "string",
+          "title": "BaseMedium",
+          "description": "[CC4, R] Growth medium",
+          "miaybe": {
+            "id": "CC4",
+            "status": "R"
+          }
+        },
+        "mediaSupplements": {
+          "type": "string",
+          "title": "MediaSupplements",
+          "description": "[CC5, R] Additives beyond base",
+          "miaybe": {
+            "id": "CC5",
+            "status": "R"
+          }
+        },
+        "glutamineConcentration_mM": {
+          "type": "number",
+          "minimum": 0,
+          "title": "GlutamineConcentration (mM)",
+          "description": "[CC6, M] Initial Gln concentration",
+          "miaybe": {
+            "id": "CC6",
+            "status": "M",
+            "unit": "mM",
+            "cqMapping": [
+              "CQ3"
+            ]
+          }
+        },
+        "glucoseConcentration_gL": {
+          "type": "number",
+          "minimum": 0,
+          "title": "GlucoseConcentration (g/L)",
+          "description": "[CC7, M] Initial glucose",
+          "miaybe": {
+            "id": "CC7",
+            "status": "M",
+            "unit": "g/L"
+          }
+        },
+        "osmolalitySetpoint_mOsmkg": {
+          "type": "number",
+          "minimum": 0,
+          "title": "OsmolalitySetpoint (mOsm/kg)",
+          "description": "[CC8, M] Target osmolality",
+          "miaybe": {
+            "id": "CC8",
+            "status": "M",
+            "unit": "mOsm/kg"
+          }
+        },
+        "cO2Percentage": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100,
+          "title": "CO2Percentage (%)",
+          "description": "[CC9, M] Incubator CO2",
+          "miaybe": {
+            "id": "CC9",
+            "status": "M",
+            "unit": "%"
+          }
+        },
+        "agitationSpeed_rpm": {
+          "type": "number",
+          "minimum": 0,
+          "title": "AgitationSpeed (rpm)",
+          "description": "[CC10, M] Stirrer/shaker speed",
+          "miaybe": {
+            "id": "CC10",
+            "status": "M",
+            "unit": "rpm"
+          }
+        },
+        "agitationType": {
+          "type": "string",
+          "enum": [
+            "Orbital",
+            "Pitched-blade",
+            "Rushton",
+            "Marine",
+            "Other"
+          ],
+          "title": "AgitationType",
+          "description": "[CC11, M] Mixing mode",
+          "miaybe": {
+            "id": "CC11",
+            "status": "M"
+          }
+        },
+        "inoculationDensity_cellsmL": {
+          "type": "number",
+          "minimum": 0,
+          "title": "InoculationDensity (cells/mL)",
+          "description": "[CC12, O] Seeding cell density",
+          "miaybe": {
+            "id": "CC12",
+            "status": "O",
+            "unit": "cells/mL"
+          }
+        },
+        "cultureVolume_mL": {
+          "type": "number",
+          "minimum": 0,
+          "title": "CultureVolume (mL)",
+          "description": "[CC13, O] Working volume",
+          "miaybe": {
+            "id": "CC13",
+            "status": "O",
+            "unit": "mL"
+          }
+        },
+        "vesselType": {
+          "type": "string",
+          "title": "VesselType",
+          "description": "[CC14, O] Bioreactor/flask type",
+          "miaybe": {
+            "id": "CC14",
+            "status": "O"
+          }
+        },
+        "shakerDiameter_mm": {
+          "type": "number",
+          "minimum": 0,
+          "title": "ShakerDiameter (mm)",
+          "description": "[CC15, O] Orbital shaking throw",
+          "miaybe": {
+            "id": "CC15",
+            "status": "O",
+            "unit": "mm"
+          }
+        }
+      }
+    },
+    "processParameters": {
+      "title": "Process Parameters",
+      "description": "Section 3.4",
+      "type": "object",
+      "required": [
+        "processType",
+        "cultureDuration",
+        "harvestCriteria"
+      ],
+      "properties": {
+        "processType": {
+          "type": "string",
+          "enum": [
+            "Batch",
+            "FedBatch",
+            "Perfusion",
+            "Continuous",
+            "Other"
+          ],
+          "title": "ProcessType",
+          "description": "[P1, R] Culture mode",
+          "miaybe": {
+            "id": "P1",
+            "status": "R",
+            "cqMapping": [
+              "CQ5"
+            ]
+          }
+        },
+        "cultureDuration": {
+          "type": "string",
+          "title": "CultureDuration",
+          "description": "[P2, R] Total culture length",
+          "miaybe": {
+            "id": "P2",
+            "status": "R"
+          }
+        },
+        "harvestCriteria": {
+          "type": "string",
+          "title": "HarvestCriteria",
+          "description": "[P3, R] Termination trigger",
+          "miaybe": {
+            "id": "P3",
+            "status": "R"
+          }
+        },
+        "feedStrategy": {
+          "type": "string",
+          "title": "FeedStrategy",
+          "description": "[P4, M] Feeding protocol",
+          "miaybe": {
+            "id": "P4",
+            "status": "M"
+          }
+        },
+        "feedComposition": {
+          "type": "string",
+          "title": "FeedComposition",
+          "description": "[P5, M] Feed medium type",
+          "miaybe": {
+            "id": "P5",
+            "status": "M"
+          }
+        },
+        "feedSchedule": {
+          "type": "string",
+          "title": "FeedSchedule",
+          "description": "[P6, M] Timing of feeds",
+          "miaybe": {
+            "id": "P6",
+            "status": "M"
+          }
+        },
+        "temperatureShift": {
+          "type": "string",
+          "title": "TemperatureShift",
+          "description": "[P7, M] Temperature reduction",
+          "miaybe": {
+            "id": "P7",
+            "status": "M"
+          }
+        },
+        "pHControl": {
+          "type": "string",
+          "title": "pHControl",
+          "description": "[P8, O] pH control method",
+          "miaybe": {
+            "id": "P8",
+            "status": "O"
+          }
+        },
+        "dOControl": {
+          "type": "string",
+          "title": "DOControl",
+          "description": "[P9, O] DO control method",
+          "miaybe": {
+            "id": "P9",
+            "status": "O"
+          }
+        },
+        "bleedStrategy": {
+          "type": "string",
+          "title": "BleedStrategy",
+          "description": "[P10, O] Perfusion bleed rate",
+          "miaybe": {
+            "id": "P10",
+            "status": "O"
+          }
+        }
+      }
+    },
+    "sampling": {
+      "title": "Sampling & Time Course",
+      "description": "Section 3.5",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "sampleAccession",
+          "collectionTimepoint_hours",
+          "viableCellDensity_cellsmL",
+          "viabilityPercentage"
+        ],
+        "properties": {
+          "sampleAccession": {
+            "type": "string",
+            "title": "SampleAccession",
+            "description": "[S1, R] Unique sample identifier",
+            "miaybe": {
+              "id": "S1",
+              "status": "R",
+              "cqMapping": [
+                "All CQs"
+              ]
+            }
+          },
+          "collectionTimepoint_hours": {
+            "type": "number",
+            "minimum": 0,
+            "title": "CollectionTimepoint (hours)",
+            "description": "[S2, R] Time of sample collection",
+            "miaybe": {
+              "id": "S2",
+              "status": "R",
+              "unit": "hours",
+              "cqMapping": [
+                "CQ3"
+              ]
+            }
+          },
+          "viableCellDensity_cellsmL": {
+            "type": "number",
+            "minimum": 0,
+            "title": "ViableCellDensity (cells/mL)",
+            "description": "[S3, R] VCD at collection",
+            "miaybe": {
+              "id": "S3",
+              "status": "R",
+              "unit": "cells/mL",
+              "cqMapping": [
+                "CQ3"
+              ]
+            }
+          },
+          "viabilityPercentage": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "title": "ViabilityPercentage (%)",
+            "description": "[S4, R] % viability at collection",
+            "miaybe": {
+              "id": "S4",
+              "status": "R",
+              "unit": "%",
+              "cqMapping": [
+                "CQ7"
+              ]
+            }
+          },
+          "culturePhase": {
+            "type": "string",
+            "enum": [
+              "EarlyExponential",
+              "MidExponential",
+              "LateExponential",
+              "Stationary",
+              "Decline",
+              "Other"
+            ],
+            "title": "CulturePhase",
+            "description": "[S5, M] Growth phase at sampling",
+            "miaybe": {
+              "id": "S5",
+              "status": "M",
+              "cqMapping": [
+                "CQ4",
+                "CQ6"
+              ]
+            }
+          },
+          "sampleType": {
+            "type": "string",
+            "title": "SampleType",
+            "description": "[S6, M] Type of sample collected",
+            "miaybe": {
+              "id": "S6",
+              "status": "M"
+            }
+          },
+          "sampleVolume_mL": {
+            "type": "number",
+            "minimum": 0,
+            "title": "SampleVolume (mL)",
+            "description": "[S7, M] Volume collected",
+            "miaybe": {
+              "id": "S7",
+              "status": "M",
+              "unit": "mL"
+            }
+          },
+          "cellularCompartment": {
+            "type": "string",
+            "enum": [
+              "Cell",
+              "Extracellular Region",
+              "Nuclear",
+              "Mitochondrial",
+              "Other"
+            ],
+            "title": "CellularCompartment",
+            "description": "[S8, M] Cellular origin of the sample",
+            "miaybe": {
+              "id": "S8",
+              "status": "M"
+            }
+          },
+          "sampleBuffer": {
+            "type": "string",
+            "title": "SampleBuffer",
+            "description": "[S9, O] Buffer/matrix for purified samples",
+            "miaybe": {
+              "id": "S9",
+              "status": "O"
+            }
+          },
+          "storageConditions": {
+            "type": "string",
+            "title": "StorageConditions",
+            "description": "[S10, O] Sample preservation",
+            "miaybe": {
+              "id": "S10",
+              "status": "O"
+            }
+          },
+          "processingDelay_min": {
+            "type": "number",
+            "minimum": 0,
+            "title": "ProcessingDelay (min)",
+            "description": "[S11, O] Time from collection to processing",
+            "miaybe": {
+              "id": "S11",
+              "status": "O",
+              "unit": "min"
+            }
+          }
+        }
+      }
+    },
+    "analyticalMethods": {
+      "title": "Analytical Methods",
+      "description": "Section 3.6",
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "analysisType",
+          "platform",
+          "protocolReference"
+        ],
+        "properties": {
+          "analysisType": {
+            "type": "string",
+            "enum": [
+              "Transcriptomics",
+              "Metabolomics",
+              "Glycosylation",
+              "Proteomics",
+              "CellViability",
+              "Titer",
+              "Other"
+            ],
+            "title": "AnalysisType",
+            "description": "[A1, R] Category of analysis",
+            "miaybe": {
+              "id": "A1",
+              "status": "R"
+            }
+          },
+          "platform": {
+            "type": "string",
+            "title": "Platform",
+            "description": "[A2, R] Instrument/technology",
+            "miaybe": {
+              "id": "A2",
+              "status": "R"
+            }
+          },
+          "protocolReference": {
+            "type": "string",
+            "title": "ProtocolReference",
+            "description": "[A3, R] SOP or publication reference",
+            "miaybe": {
+              "id": "A3",
+              "status": "R"
+            }
+          },
+          "metabolitePanel": {
+            "type": "string",
+            "title": "MetabolitePanel",
+            "description": "[A4, M] For metabolomics: analytes measured",
+            "miaybe": {
+              "id": "A4",
+              "status": "M"
+            }
+          },
+          "libraryStrategy": {
+            "type": "string",
+            "title": "LibraryStrategy",
+            "description": "[A5, M] For RNA-seq: library prep method",
+            "miaybe": {
+              "id": "A5",
+              "status": "M"
+            }
+          },
+          "sequencingDepth": {
+            "type": "string",
+            "title": "SequencingDepth",
+            "description": "[A6, M] For RNA-seq: target depth",
+            "miaybe": {
+              "id": "A6",
+              "status": "M"
+            }
+          },
+          "dataProcessingPipeline": {
+            "type": "string",
+            "title": "DataProcessingPipeline",
+            "description": "[A7, O] Analysis software/version",
+            "miaybe": {
+              "id": "A7",
+              "status": "O"
+            }
+          },
+          "normalizationMethod": {
+            "type": "string",
+            "enum": [
+              "TPM",
+              "CPM",
+              "VST",
+              "RPKM",
+              "FPKM",
+              "None",
+              "Other"
+            ],
+            "title": "NormalizationMethod",
+            "description": "[A8, O] Data normalization approach",
+            "miaybe": {
+              "id": "A8",
+              "status": "O"
+            }
+          }
+        }
+      }
+    },
+    "product": {
+      "title": "Product Information",
+      "description": "Section 3.7",
+      "type": "object",
+      "required": [
+        "productType",
+        "productName"
+      ],
+      "properties": {
+        "productType": {
+          "type": "string",
+          "title": "ProductType",
+          "description": "[PR1, R] Class of product",
+          "miaybe": {
+            "id": "PR1",
+            "status": "R",
+            "cqMapping": [
+              "CQ2",
+              "CQ8"
+            ]
+          }
+        },
+        "productName": {
+          "type": "string",
+          "title": "ProductName",
+          "description": "[PR2, R] Product identifier",
+          "miaybe": {
+            "id": "PR2",
+            "status": "R"
+          }
+        },
+        "titerValue": {
+          "type": "number",
+          "minimum": 0,
+          "title": "TiterValue",
+          "description": "[PR3, M] Product concentration",
+          "miaybe": {
+            "id": "PR3",
+            "status": "M",
+            "cqMapping": [
+              "1500"
+            ]
+          }
+        },
+        "titerMethod": {
+          "type": "string",
+          "title": "TiterMethod",
+          "description": "[PR4, M] Quantification assay",
+          "miaybe": {
+            "id": "PR4",
+            "status": "M"
+          }
+        },
+        "qualityType": {
+          "type": "string",
+          "title": "QualityType",
+          "description": "[PR5, M] Quality attribute assessed",
+          "miaybe": {
+            "id": "PR5",
+            "status": "M",
+            "cqMapping": [
+              "CQ8"
+            ]
+          }
+        },
+        "ensemblGeneID": {
+          "type": "string",
+          "pattern": "^ENS[A-Z]*G\\d+$",
+          "title": "EnsemblGeneID",
+          "description": "[PR6, O] For protein products: gene ID",
+          "miaybe": {
+            "id": "PR6",
+            "status": "O"
+          }
+        },
+        "uniProtID": {
+          "type": "string",
+          "pattern": "^[A-Z][0-9][A-Z0-9]{3}[0-9]$",
+          "title": "UniProtID",
+          "description": "[PR7, O] Protein database reference",
+          "miaybe": {
+            "id": "PR7",
+            "status": "O"
+          }
+        }
+      }
+    }
+  }
+}
