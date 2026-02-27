@@ -1,13 +1,13 @@
-# MIAYBBE: Minimum Information About Your Biologics Bioprocessing Experiment
+# MIAYBE: Minimum Information About Your Bioprocessing Experiment
 
 **Version 1.3 (Draft)**
 **Date: 2026-02-10**
 
 ## Abstract
 
-MIAYBBE (Minimum Information About Your Biologics Bioprocessing Experiment) defines the minimum information required to unambiguously describe a biologics manufacturing experiment and enable meaningful data integration, meta-analysis, and reproducibility assessment. This guideline applies to cell culture-based production of recombinant proteins, monoclonal antibodies, and other biologics, with emphasis on mammalian cell systems (particularly CHO cells).
+MIAYBE (Minimum Information About Your Bioprocessing Experiment) defines the minimum information required to unambiguously describe a biologics manufacturing experiment and enable meaningful data integration, meta-analysis, and reproducibility assessment. This guideline applies to cell culture-based production of recombinant proteins, monoclonal antibodies, and other biologics, with emphasis on mammalian cell systems (particularly CHO cells).
 
-MIAYBBE follows the precedent established by other minimum information standards including MIAME (microarray), MIQE (qPCR), MIAPE (proteomics), and MIAPPE (plant phenotyping). It provides a structured framework for reporting bioprocessing experimental conditions, enabling cross-study comparisons and supporting ontology-driven knowledge graphs such as MCBO (Mammalian Cell Bioprocessing Ontology).
+MIAYBE follows the precedent established by other minimum information standards including MIAME (microarray), MIQE (qPCR), MIAPE (proteomics), and MIAPPE (plant phenotyping). It provides a structured framework for reporting bioprocessing experimental conditions, enabling cross-study comparisons and supporting ontology-driven knowledge graphs such as MCBO (Mammalian Cell Bioprocessing Ontology).
 
 ---
 
@@ -26,7 +26,7 @@ The proliferation of high-throughput omics technologies (transcriptomics, metabo
 
 ### 1.2 Scope
 
-MIAYBBE applies to experiments involving:
+MIAYBE applies to experiments involving:
 
 - **Cell systems**: Mammalian cell lines (CHO, HEK293, NS0, hybridomas) and other eukaryotic expression hosts
 - **Products**: Recombinant proteins, monoclonal antibodies (mAb), bispecific antibodies, fusion proteins, biosimilars
@@ -34,7 +34,7 @@ MIAYBBE applies to experiments involving:
 - **Scales**: From microplate (mL) through shake flask (L) to production bioreactor (kL)
 - **Analytical outputs**: Metabolomics, transcriptomics, proteomics, glycomics, cell characterization
 
-MIAYBBE does **not** cover:
+MIAYBE does **not** cover:
 - Microbial fermentation (see MIRRI guidelines)
 - Downstream processing (purification, formulation)
 - Clinical trial data (see ICH guidelines)
@@ -42,7 +42,7 @@ MIAYBBE does **not** cover:
 
 ### 1.3 Relationship to Other Standards
 
-| Standard | Scope | MIAYBBE Relationship |
+| Standard | Scope | MIAYBE Relationship |
 |----------|-------|---------------------|
 | MIAME | Microarray experiments | Expression data context |
 | MINSEQE | Sequencing experiments | RNA-seq/NGS context |
@@ -54,9 +54,9 @@ MIAYBBE does **not** cover:
 
 ---
 
-## 2. MIAYBBE Checklist Overview
+## 2. MIAYBE Checklist Overview
 
-MIAYBBE organizes required information into seven categories, with items classified as:
+MIAYBE organizes required information into seven categories, with items classified as:
 
 - **REQUIRED (R)**: Must be reported for the experiment to be interpretable
 - **RECOMMENDED (M)**: Should be reported when available; critical for reproducibility
@@ -203,9 +203,9 @@ Details about the recombinant product (for producer cell lines).
 
 ## 4. Mapping to MCBO Ontology
 
-MIAYBBE items map to the MCBO (Mammalian Cell Bioprocessing Ontology) data dictionary as follows:
+MIAYBE items map to the MCBO (Mammalian Cell Bioprocessing Ontology) data dictionary as follows:
 
-| MIAYBBE Item | MCBO Column | Notes |
+| MIAYBE Item | MCBO Column | Notes |
 |-------------|-------------|-------|
 | ExperimentID | StudyID | Grouped by study |
 | CellLine | CellLine | Direct mapping |
@@ -233,9 +233,9 @@ MIAYBBE items map to the MCBO (Mammalian Cell Bioprocessing Ontology) data dicti
 
 ### Competency Question Coverage
 
-MIAYBBE requirements directly support the following MCBO competency questions:
+MIAYBE requirements directly support the following MCBO competency questions:
 
-| CQ | Question | MIAYBBE Requirements | Data Source |
+| CQ | Question | MIAYBE Requirements | Data Source |
 |----|----------|---------------------|-------------|
 | CQ1 | What culture conditions are associated with high productivity? | CC1-3 (T, pH, DO), P1, PR3 | `titer` table (co-located conditions) |
 | CQ2 | Which CHO cell lines overexpress specific genes? | C1 (CellLine), C9 (Producer), PR1 | `sample_metadata` table |
@@ -288,7 +288,7 @@ Example: CBD10_CC207_EnM_72h
 ### 6.1 For Researchers
 
 1. **Plan ahead**: Design your metadata collection alongside the experiment
-2. **Use templates**: Download MIAYBBE-compliant spreadsheet templates
+2. **Use templates**: Download MIAYBE-compliant spreadsheet templates
 3. **Record in real-time**: Capture conditions as they occur, not retrospectively
 4. **Version control**: Track changes to metadata files
 5. **Archive raw data**: Preserve original instrument outputs alongside processed summaries
@@ -298,13 +298,13 @@ Example: CBD10_CC207_EnM_72h
 1. **Validate submissions**: Check for required fields before acceptance
 2. **Provide feedback**: Alert submitters to missing recommended fields
 3. **Support versioning**: Allow metadata updates post-submission
-4. **Enable queries**: Index MIAYBBE fields for search and filtering
+4. **Enable queries**: Index MIAYBE fields for search and filtering
 5. **Link to ontologies**: Map to MCBO, CLO, OBI terms where possible
 
 ### 6.3 For Journal Publishers
 
-1. **Require compliance**: Make MIAYBBE adherence a submission requirement
-2. **Provide checklists**: Include MIAYBBE checklist in author guidelines
+1. **Require compliance**: Make MIAYBE adherence a submission requirement
+2. **Provide checklists**: Include MIAYBE checklist in author guidelines
 3. **Review metadata**: Train reviewers to assess metadata completeness
 4. **Link data**: Require data repository accession numbers
 
@@ -331,13 +331,13 @@ A key data pattern in bioprocessing is **co-located measurements**: titer values
 - Glucose vs VCD: r=-0.742 (strong negative, nutrient depletion)
 - Glutamine vs VCD: r=-0.654 (strong negative, nutrient depletion)
 
-When reporting titer measurements, MIAYBBE **recommends** including co-located culture condition values measured at the same timepoint.
+When reporting titer measurements, MIAYBE **recommends** including co-located culture condition values measured at the same timepoint.
 
 ---
 
 ## 6.5 Multi-Agent Query Architecture
 
-MIAYBBE-compliant datasets support automated analysis via multi-agent LLM pipelines. The reference implementation uses a 4-phase architecture:
+MIAYBE-compliant datasets support automated analysis via multi-agent LLM pipelines. The reference implementation uses a 4-phase architecture:
 
 1. **SQL Agent**: Fetches data using schema-aware queries
 2. **Auto-Stats**: Deterministic pre-analysis (peak finding, correlations)
@@ -350,7 +350,7 @@ MIAYBBE-compliant datasets support automated analysis via multi-agent LLM pipeli
 - Agent reasoning traces (LLM responses)
 - Critic verdicts and revision requests
 
-This architecture enables reproducible, auditable answers to MIAYBBE competency questions.
+This architecture enables reproducible, auditable answers to MIAYBE competency questions.
 
 ---
 
@@ -367,14 +367,14 @@ This architecture enables reproducible, auditable answers to MIAYBBE competency 
 
 ### 7.2 Governance
 
-MIAYBBE is maintained by the MCBO Consortium. Proposed changes should be submitted as GitHub issues to the MCBO repository. Major revisions require community review and consensus.
+MIAYBE is maintained by the MCBO Consortium. Proposed changes should be submitted as GitHub issues to the MCBO repository. Major revisions require community review and consensus.
 
 ### 7.3 Extension Mechanism
 
-MIAYBBE can be extended for specific applications:
-- **MIAYBBE-Gly**: Extended glycosylation metadata
-- **MIAYBBE-Met**: Extended metabolomics metadata
-- **MIAYBBE-Perf**: Extended perfusion process metadata
+MIAYBE can be extended for specific applications:
+- **MIAYBE-Gly**: Extended glycosylation metadata
+- **MIAYBE-Met**: Extended metabolomics metadata
+- **MIAYBE-Perf**: Extended perfusion process metadata
 
 ---
 
@@ -503,7 +503,7 @@ https://github.com/uga-repos/mcbo/templates/miabbe_template.csv
 
 ### Validation Tool
 
-Validate your metadata against MIAYBBE using:
+Validate your metadata against MIAYBE using:
 ```bash
 mcbo-validate --schema miabbe --input my_metadata.csv
 ```
@@ -512,7 +512,7 @@ mcbo-validate --schema miabbe --input my_metadata.csv
 
 ## Document Information
 
-**Title**: MIAYBBE: Minimum Information About Your Biologics Bioprocessing Experiment
+**Title**: MIAYBE: Minimum Information About Your Bioprocessing Experiment
 **Version**: 1.3 (Draft)
 **Status**: Community Review
 **License**: CC-BY 4.0
