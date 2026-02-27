@@ -65,6 +65,87 @@ Opens a browser form with one tab per MIAYBE section. Filling in the form and cl
 
 ---
 
+## Dashboard screenshots
+
+<img src="img/MIAYBE.1.png" width="700" alt="Experiment tab — overall layout with tab navigation and R/M/O badges">
+
+*Tab 1 — Experiment Description. Required fields (red R) must be filled; Recommended (orange M) and Optional (grey O) fields carry visual badges derived directly from the JSON schema.*
+
+<table>
+  <tr>
+    <td><img src="img/MAIYBE.2.png" width="340" alt="Cell Line tab"></td>
+    <td><img src="img/MIAYBE.3.png" width="340" alt="Culture Conditions tab"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>2 — Cell Line Information</em></td>
+    <td align="center"><em>3 — Culture Conditions (numeric fields with units)</em></td>
+  </tr>
+  <tr>
+    <td><img src="img/MAIYBE.4.png" width="340" alt="Process Parameters tab"></td>
+    <td><img src="img/MAIYBE.5.png" width="340" alt="Sampling tab"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>4 — Process Parameters (enum dropdowns)</em></td>
+    <td align="center"><em>5 — Sampling &amp; Time Course (repeatable array items)</em></td>
+  </tr>
+  <tr>
+    <td><img src="img/MAIYBE.6.png" width="340" alt="Analytical Methods tab"></td>
+    <td><img src="img/MAIYBE.7.png" width="340" alt="Product Information tab"></td>
+  </tr>
+  <tr>
+    <td align="center"><em>6 — Analytical Methods (repeatable array items)</em></td>
+    <td align="center"><em>7 — Product Information</em></td>
+  </tr>
+</table>
+
+---
+
+## Updating the spec — end-to-end pipeline
+
+When the MIAYBE specification changes (new fields, revised definitions, new enum values), follow this pipeline to propagate changes through to the dashboard:
+
+```
+MIAYBE.md  ──(1)──▶  miaybe_schema_generated.json  ──(2)──▶  dashboard
+   ▲                                                               │
+   │                                                               │
+ edit spec                                                   mostly automatic;
+                                                          see step 2 notes below
+```
+
+### Step 1 — Edit the spec and regenerate the schema
+
+Edit `MIAYBE.md` (add/rename fields, change status, update definitions), then run:
+
+```bash
+python miaybe_md_to_schema.py MIAYBE.md -o miaybe_schema_generated.json
+```
+
+Commit both `MIAYBE.md` and `miaybe_schema_generated.json` together.
+
+### Step 2 — Review the dashboard impact
+
+Most changes propagate to the dashboard automatically because the form is schema-driven:
+
+| What changed in the spec | Dashboard impact | Manual action needed? |
+|--------------------------|------------------|-----------------------|
+| Field renamed | New camelCase property key in schema | Update `uiSchema.js` if a placeholder/widget override referenced the old key |
+| New field added | Appears in the correct section tab automatically | Optionally add a placeholder to `uiSchema.js` |
+| Field removed | Disappears from the form automatically | Remove any stale `uiSchema.js` entry for that key |
+| New enum value | Added to the select dropdown automatically | None — but `ENUM_OVERRIDES` in the generator may need updating |
+| Section added (new `### 3.x`) | Parsed into the schema automatically | Add the new key to `SECTION_LABELS` in `SectionTabsTemplate.jsx` and to `SECTION_META` in the generator |
+| Section removed | Disappears automatically | Remove the key from `SECTION_LABELS` in `SectionTabsTemplate.jsx` |
+| Long-text field needs a textarea | Not automatic | Add `'ui:widget': 'textarea'` in `uiSchema.js` |
+| Date field without `format: date` | Not automatic | Add `'ui:widget': 'date'` in `uiSchema.js` |
+
+The two dashboard files that may need manual updates are:
+
+- **`dashboard/src/uiSchema.js`** — widget overrides (textarea, date) and placeholder text, keyed by the camelCase property name produced by the schema generator.
+- **`dashboard/src/SectionTabsTemplate.jsx`** — the `SECTION_LABELS` object maps schema property keys to human-readable tab names.
+
+Everything else (field order, types, validation, required/optional badges, array sections) updates automatically from the regenerated JSON.
+
+---
+
 ## How the schema generator works
 
 `miaybe_md_to_schema.py` parses the Markdown tables in sections 3.1–3.7 of `MIAYBE.md` and produces a JSON Schema (draft 2020-12) with:
