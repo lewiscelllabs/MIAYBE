@@ -201,35 +201,74 @@ Details about the recombinant product (for producer cell lines).
 
 ---
 
-## 4. Mapping to MCBO Ontology
+## 4. Mapping to MCBO Ontology and BMIC
 
-MIAYBE items map to the MCBO (Mammalian Cell Bioprocessing Ontology) data dictionary as follows:
+MIAYBE items map to the MCBO (Mammalian Cell Bioprocessing Ontology) data dictionary and BMIC ontology as follows:
 
-| MIAYBE Item | MCBO Column | Notes |
-|-------------|-------------|-------|
-| ExperimentID | StudyID | Grouped by study |
-| CellLine | CellLine | Direct mapping |
-| CloneID | CloneID | Direct mapping |
-| Host | Host | "CHO" for CHO lines |
-| GeneticModification | GeneticModification | Plasmid/transgene info |
-| SelectionMarker | SelectionMarker | GS, DHFR, etc. |
-| Temperature | Temperature | Decimal °C |
-| pH | pH | Decimal |
-| DissolvedOxygen | DissolvedOxygen | % air saturation |
-| GlutamineConcentration | GlutamineConcentration | mM |
-| ProcessType | ProcessType | Batch/FedBatch/Perfusion |
-| CollectionTimepoint | CollectionDay | Converted to days |
-| CulturePhase | CulturePhase | EarlyExp/MidExp/LateExp/Stationary |
-| ViableCellDensity | ViableCellDensity | cells/mL |
-| ViabilityPercentage | ViabilityPercentage | 0-100% |
-| ProductType | ProductType | Gene symbol or antibody term |
-| TiterValue | TiterValue | mg/L |
-| QualityType | QualityType | Glycosylation, Aggregation, etc. |
-| SampleAccession | SampleAccession | Unique identifier |
-| Producer | Producer | Boolean |
-| CellularCompartment | CellularCompartment | "Cell" or "Extracellular Region" |
-| ThawDate | ThawDate | Date cells thawed from bank |
-| SampleBuffer | Buffer | For purified protein samples |
+| MIAYBE Item | MCBO Column | MCBO Notes | BMIC Mapping | BMIC Notes |
+|---|---|---|---|---|
+| ExperimentID | StudyID | Grouped by study | Defined class under identifier | Study design and its execution in particular can be added from OBI: https://www.ebi.ac.uk/ols4/ontologies/obi/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FOBI_0000471. "Experiment" here can be reused from AFO: https://www.ebi.ac.uk/ols4/ontologies/afo/classes/http%253A%252F%252Fpurl.allotrope.org%252Fontologies%252Fprocess%2523AFP_0003735?lang=en |
+| CellLine | CellLine | Direct mapping | CellLine | Direct mapping |
+| CloneID | CloneID | Direct mapping | Defined Identifier class | Same as sample accession |
+| Host | Host | "CHO" for CHO lines | No direct mapping | Host can be retrieved from the cell line taxonomy, so there is no need for an additional class |
+| GeneticModification | GeneticModification | Plasmid/transgene info | No direct mapping | This should be split into two parts: one dealing with cell line characteristics, and another dealing with transgene/plasmid characteristics. For the first one, many cases can be accomplished using GO and 'expressed' in and its subrelations from RO, plus possibly an addition such as 'has knocked out gene'. This needs further discussion on scoping criteria and the competency questions it needs to address, for example whether there is a use case warranting the actual modification processes or other kinds of cell distinction |
+| SelectionMarker | SelectionMarker | GS, DHFR, etc. | None yet | Our use cases did not go into selection at this point, so this is a gap we can fill together. OBO has SO:0002232: https://www.ebi.ac.uk/ols4/ontologies/so/classes/http%253A%252F%252Fpurl.obolibrary.org%252Fobo%252FSO_0002232, but this does not fully cover the usage or provide the full context |
+| Temperature | Temperature | Decimal °C | Temperature | We do not have a firm unit requirement in BMIC, as QUDT enables straightforward unit conversions. These unit requirements could remain in the data model rather than the ontology |
+| pH | pH | Decimal | pH | We do not have a firm unit requirement in BMIC, as QUDT enables straightforward unit conversions. These unit requirements could remain in the data model rather than the ontology |
+| DissolvedOxygen | DissolvedOxygen | % air saturation | DissolvedOxygenSaturationRatio | It is being defined directly as this ratio, as this enables more fine-grained differentiation of what this percentage actually is |
+| GlutamineConcentration | GlutamineConcentration | mM | Defined class under concentration called GlutamineConcentration | We are not creating all these defined classes on the reference level, but it would be a subclass of concentration with the axiom: concentration and 'concentration of' L-glutamine |
+| ProcessType | ProcessType | Batch/FedBatch/Perfusion | Batch/FedBatch/Perfusion | Direct mapping. Note that there is an additional layer for whether it was an expansion or a production process |
+| CollectionTimepoint | CollectionDay | Converted to days | Utility property 'hasSamplingDateTime' | As with thawing, the sampling process occupies a temporal interval which can then be connected to a timestamp/datetime/date. If this is too verbose, utility properties can be created |
+| CulturePhase | CulturePhase | EarlyExp/MidExp/LateExp/Stationary | Can remain in MCBO for now | The current use cases have not identified a need for detailed phase breakdown. The closest distinction is growth versus production because of possible differences in feed/control requirements |
+| ViableCellDensity | ViableCellDensity | cells/mL | ViableCellDensity | Same as the other measurements: no unit requirements |
+| ViabilityPercentage | ViabilityPercentage | 0–100% | CellViabilityRatio | Same meaning as the percentage |
+| ProductType | ProductType | Gene symbol or antibody term | Defined class under material product | Product type, meaning the inherent nature of the product such as protein or cell, can be defined by adding the product role to the appropriate cell, protein, or RNA. Many of these product categories are defined in CHEBI |
+| TiterValue | TiterValue | mg/L | ProductTiter | Same meaning; "product" added to differentiate it from broader uses of the word titer |
+| QualityType | QualityType | Glycosylation, Aggregation, etc. | QualityAttribute | For pharma, an additional qualifier indicating whether the attribute is critical should be permitted |
+| SampleAccession | SampleAccession | Unique identifier | Defined class under Identifier | Same case as GlutamineConcentration. Here it is a defined class under Identifier: identifier and 'designates' some sample. As a side note, 'designates' is a functional property, which guarantees uniqueness |
+| Producer | Producer | Boolean | Not in BMIC | A data property with a boolean value is likely sufficient. A more verbose model would use a production capability, but that would only be useful if there are competency questions demanding it. The boolean does not prevent future extension |
+| CellularCompartment | CellularCompartment | "Cell" or "Extracellular Region" | Input of a sampling process | This should be relabeled to something like 'sample origin relative to cell', as 'cellular compartment' may confuse users and orient them toward terms such as Golgi or nucleus. Allowed categories should be determined. Alternatively, it can be collapsed into 'SampleType', and a hierarchy of classes there can be used to infer whether it is from the cell or from the extracellular environment |
+| ThawDate | ThawDate | Date cells thawed from bank | Utility property 'hasMaterialThawDate' | The full ontological pattern is a thawing process that occupies a temporal interval, which can be connected via a data property to a date. This can be too verbose depending on usage and can be shortened by one of the utility properties |
+| SampleBuffer | Buffer | For purified protein samples | Buffer | Sample 'has continuant part' Buffer |
+
+### Additional BMIC mapping
+
+Mapping of additional terms identified as part of MIAYBE into BMIC:
+
+| MIAYBE Item | BMIC Mapping | Notes |
+|---|---|---|
+| ExperimentObjective | ObjectiveSpecification | Ontologically, this would be an ObjectiveSpecification connected to an experiment or even the entire study, so there is no need for further classes, though a simple extension can always be created if use cases require it |
+| ParentCellLine | 'derived from' from CLO | Depending on the competency questions and scope, this can be further expanded into the full cell line lineage |
+| CellLineSource | Supplier for externally acquired cell lines | For in-house cell lines, this can be represented via 'specified output of' a cell line development process |
+| PassageNumber | Utility property | This reflects the number of cell culture expansion processes from thawing up to the point of the reported experiment |
+| Stability | Subclass under Stability | It is better named 'ExpressionStability', since there are many stability contexts |
+| CellBankID | Defined class under Identifier called CellBankIdentifier | BMIC has CellBank, so the class would be like other identifiers: Identifier and 'designates' some cell bank |
+| BaseMedium | BasalCultureMedium | |
+| MediaSupplements | MediaSupplement | Role-based class, fully defined through composition of the supplement and role assignment |
+| GlucoseConcentration | Defined class under concentration called GlucoseConcentration | Same pattern as glutamine |
+| OsmolalitySetpoint | Defined class under setpoint called OsmolalitySetpoint | There is already setpoint and osmolality; this is a logical combination of setpoint and 'is value expression of' osmolality |
+| CO2 % | Defined class of CO2Fraction under volume fraction | CO2 already exists; this is a matter of connecting it to the fraction via 'is fraction of' |
+| AgitationSpeed | Stirring speed is there but shaking is yet to be defined | Currently missing but will be added soon. Stirring rate already exists, but shaking rate is still missing |
+| AgitationType | / | Detailed treatment of mixing is not currently available because it is not aligned with the current use cases. It can be built separately and embedded as part of this effort |
+| InoculationDensity | Defined class under CellDensity | Defined class of cell density and 'is process parameter of' cell culture inoculation process |
+| CultureVolume | WorkingVolume | |
+| VesselType | Multiple classes under material artifact | There are different kinds of flasks, bioreactor vessels, and rocker bags, but no unified class called vessel, because that is difficult to define at the reference level |
+| ShakerDiameter | / | Shaker as a piece of equipment has not yet been addressed |
+| CultureDuration | ProcessDuration | There is no need for a defined class here, because the experimental context is sufficient |
+| HarvestCriteria | / | Process termination criteria are currently being developed as part of the IOF mid-level effort |
+| FeedStrategy | CultureFeedingStrategy | |
+| FeedComposition | Parts of NutrientFeed for qualitative composition; concentrations of components for more quantitative representation | No dedicated class. This can be mapped to the parts of the nutrient feed. If it is just a commercial mixture, then it is simply modeled as classes under NutrientFeed |
+| FeedSchedule | / | The IOF mid-level group is currently working on defining the anchor schedule class |
+| TemperatureShift | / | State theory is being developed in the IOF Core, which will provide a semantically powerful model for representing transitions |
+| pHControl | pHAdjustmentAdditionProcess | The specific type of addition is defined through the input to this process |
+| DOControl | AerationProcess | This serves as a superclass and can be specialized as needed, for example to sparging |
+| BleedStrategy | Defined class under flow rate and 'is process parameter of' cell bleed process | This should likely be renamed to 'BleedRate' |
+| SampleType | See CellularCompartment | / |
+| SampleVolume | Volume and 'quality of' Sample | The context is given through the association with the sample, so there is likely no need for a defined class here |
+| StorageConditions | 'is process parameter of' storage process | This can be created as a defined class to group all storage parameters, but the connection to the process is already sufficient |
+| ProcessingDelay | Utility property | The context is given as the duration of the temporal region that starts with the end of the sampling process and ends with the beginning of the process that uses the sample, typically a measurement process. This can be too verbose; shortening should depend on the competency questions and availability of other information |
+| AnalyticalMethods section + TiterMethod | / | These are covered extensively in OBI and Allotrope. The needed classes/properties can be extracted from there into a single module for use |
+| Ensemble/UniprotID | / | These should be sufficient as annotation properties on the classes corresponding to the protein |
 
 ### Competency Question Coverage
 
