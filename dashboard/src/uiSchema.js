@@ -74,7 +74,7 @@ export const uiSchema = {
     pHControl: {
       'ui:placeholder': 'e.g. CO₂ / base (NaHCO₃) addition',
     },
-    dOControl: {
+    doControl: {
       'ui:placeholder': 'e.g. O₂ sparging',
     },
     bleedStrategy: {
