@@ -201,21 +201,23 @@ def parse_miaybe_md(md_text: str) -> dict:
     while i < len(lines):
         line = lines[i]
 
-        # Detect "### 3.x" headings
-        m = re.match(r"^#{2,3}\s+(3\.[1-7])\b", line)
-        if m:
-            current_section = m.group(1)
+        # Treat any 2nd/3rd-level heading as a section boundary.
+        # Only 3.1-3.7 are checklist sections that feed the schema.
+        if re.match(r"^#{2,3}\s+", line):
+            m = re.match(r"^#{2,3}\s+(3\.[1-7])\b", line)
+            current_section = m.group(1) if m else None
             i += 1
             continue
 
         # Detect table header rows inside a recognised section
-        # Only process checklist tables that have both "ID" and "Item" columns
-        if current_section and line.startswith("|") and "Item" in line and "ID" in line:
-            # Determine whether this table has a "Unit" column
-            header_cells = [c.strip() for c in line.strip("|").split("|")]
-            if "ID" not in header_cells or "Item" not in header_cells or "Status" not in header_cells:
+        # Only process checklist tables with the expected core columns.
+        if current_section and line.startswith("|"):
+            header_cells = [c.strip() for c in re.split(r"(?<!\\)\|", line.strip("|"))]
+            required_cols = {"ID", "Item", "Status", "Definition"}
+            if not required_cols.issubset(set(header_cells)):
                 i += 1
                 continue
+            # Determine whether this table has a "Unit" column
             has_unit = "Unit" in header_cells
             unit_col = header_cells.index("Unit") if has_unit else None
             # Standard columns: ID, Item, Status, Definition, [Unit,] Example, CQ Mapping
