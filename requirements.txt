@@ -1,0 +1,2 @@
+# MIAYBE schema generator uses only Python stdlib modules.
+# Keep this file for future optional Python additions.
