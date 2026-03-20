@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+from __future__ import annotations
+
 """
 miaybe_md_to_schema.py
 -----------------------
@@ -26,6 +28,8 @@ import sys
 import argparse
 from pathlib import Path
 
+MISSING_TOKENS = {"", "-", "—", "n/a", "N/A", "NA"}
+
 # ---------------------------------------------------------------------------
 # Field-type hints: maps prefix → JSON type and any extras
 # ---------------------------------------------------------------------------
@@ -34,7 +38,7 @@ _NUMERIC_PATTERNS = re.compile(
     r"collection.?timepoint|viable.?cell|viability|sample.?volume|processing.?delay|titer.?value)\b",
     re.IGNORECASE,
 )
-_DATE_PATTERNS = re.compile(r"\b(date|thaw.?date)\b", re.IGNORECASE)
+_DATE_PATTERNS = re.compile(r"(date$|thaw.?date$)", re.IGNORECASE)
 _BOOL_PATTERNS = re.compile(r"\b(producer)\b", re.IGNORECASE)
 
 # Section heading → JSON property key (camelCase) + array/object choice
@@ -52,9 +56,9 @@ SECTION_META = {
 ENUM_OVERRIDES = {
     "processType":         ["Batch", "FedBatch", "Perfusion", "Continuous", "Other"],
     "agitationType":       ["Orbital", "Pitched-blade", "Rushton", "Marine", "Other"],
-    "culturePhase":        ["EarlyExponential", "MidExponential", "LateExponential",
-                            "Stationary", "Decline", "Other"],
-    "cellularCompartment": ["Cell", "Extracellular Region", "Nuclear", "Mitochondrial", "Other"],
+    "culturePhase":        ["EarlyExp", "MidExp", "LateExp", "Stationary", "Decline", "Other"],
+    "cellularCompartment": ["Cell", "Cell (intracellular)", "Extracellular Region",
+                            "Nuclear", "Mitochondrial", "Other"],
     "analysisType":        ["Transcriptomics", "Metabolomics", "Glycosylation", "Proteomics",
                             "CellViability", "Titer", "Other"],
     "normalizationMethod": ["TPM", "CPM", "VST", "RPKM", "FPKM", "None", "Other"],
@@ -78,7 +82,12 @@ def to_camel(name: str) -> str:
     name = name.strip().strip("*").strip()
     # Split on spaces, underscores, or hyphens
     parts = re.split(r"[\s_\-]+", name)
-    return parts[0][0].lower() + parts[0][1:] + "".join(p.capitalize() for p in parts[1:])
+    if not parts or not parts[0]:
+        return name
+    first = parts[0]
+    # Normalize leading all-caps acronyms (e.g., CO2Percentage -> co2Percentage, DOControl -> doControl).
+    first = re.sub(r"^([A-Z0-9]{2,})(?=[A-Z][a-z])", lambda m: m.group(1).lower(), first)
+    return first[0].lower() + first[1:] + "".join(p.capitalize() for p in parts[1:])
 
 
 def parse_table_rows(lines: list[str]) -> list[list[str]]:
@@ -91,7 +100,8 @@ def parse_table_rows(lines: list[str]) -> list[list[str]]:
         # Skip separator row (e.g. |---|---|)
         if re.fullmatch(r"[\|\s\-:]+", line):
             continue
-        cells = [c.strip() for c in line.strip("|").split("|")]
+        # Split only on unescaped table pipes to avoid breaking cells with literal "\|".
+        cells = [c.strip().replace(r"\|", "|") for c in re.split(r"(?<!\\)\|", line.strip("|"))]
         rows.append(cells)
     return rows
 
@@ -102,7 +112,7 @@ def infer_json_type(field_key: str, definition: str, unit: str | None) -> dict:
         return {"type": "boolean"}
     if _DATE_PATTERNS.search(field_key):
         return {"type": "string", "format": "date"}
-    if _NUMERIC_PATTERNS.search(field_key) or (unit and unit not in ("—", "-", "")):
+    if _NUMERIC_PATTERNS.search(field_key) or (unit and unit not in MISSING_TOKENS):
         schema = {"type": "number", "minimum": 0}
         if "percentage" in field_key.lower() or "%" in (unit or ""):
             schema["maximum"] = 100
@@ -123,7 +133,7 @@ def build_property(item_id: str, raw_name: str, status: str,
     """Build a (property_key, property_schema) pair."""
     base_key = to_camel(raw_name)
     # Append unit suffix for numeric fields to avoid collisions
-    if unit and unit not in ("—", "-", "", "—"):
+    if unit and unit not in MISSING_TOKENS:
         safe_unit = re.sub(r"[^a-zA-Z0-9]", "", unit)
         prop_key = f"{base_key}_{safe_unit}" if safe_unit else base_key
     else:
@@ -132,13 +142,13 @@ def build_property(item_id: str, raw_name: str, status: str,
     schema = infer_json_type(prop_key, definition, unit)
 
     miaybe_meta = {"id": item_id, "status": status}
-    if unit and unit not in ("—", "-", ""):
+    if unit and unit not in MISSING_TOKENS:
         miaybe_meta["unit"] = unit
-    if cq and cq not in ("—", "-", ""):
+    if cq and cq not in MISSING_TOKENS:
         miaybe_meta["cqMapping"] = [c.strip() for c in cq.split(",") if c.strip() and c.strip() != "—"]
 
     title = raw_name.strip("*").strip()
-    if unit and unit not in ("—", "-", ""):
+    if unit and unit not in MISSING_TOKENS:
         title += f" ({unit})"
 
     schema["title"] = title
@@ -166,7 +176,7 @@ def parse_miaybe_md(md_text: str) -> dict:
             version = m.group(1).strip("()")
         m = re.search(r"Date:\s*(\S+)", line, re.IGNORECASE)
         if m:
-            spec_date = m.group(1)
+            spec_date = m.group(1).strip("*")
 
     schema = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
