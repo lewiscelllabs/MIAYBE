@@ -11,7 +11,8 @@ import { uiSchema } from './uiSchema';
 import MiaybeFieldTemplate from './MiaybeFieldTemplate';
 import SectionTabsTemplate from './SectionTabsTemplate';
 
-const { $schema, $id, ...schema } = rawSchema;
+const { $schema, $id, title: schemaTitle, ...schema } = rawSchema;
+const schemaVersion = schemaTitle?.match(/^MIAYBE\s+([^\s]+)/i)?.[1] ?? 'unknown';
 
 // Teach AJV8 to accept the custom `miaybe` extension keyword used in the schema.
 const validator = customizeValidator({
@@ -41,7 +42,7 @@ export default function App() {
       <header className="app-header">
         <h1>MIAYBE Metadata Dashboard</h1>
         <p className="app-subtitle">
-          Minimum Information About Your Bioprocessing Experiment — v1.3
+          Minimum Information About Your Bioprocessing Experiment — v{schemaVersion}
         </p>
         <p className="badge-legend">
           <span className="status-badge badge-R">R</span> Required &nbsp;
