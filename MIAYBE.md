@@ -89,7 +89,7 @@ Information identifying and contextualizing the experiment.
 | E2 | **StudyID** | R | Identifier grouping related experiments | study_cho_glyco | All CQs |
 | E3 | **ExperimentDate** | R | Start date of the experiment | 2020-02-25 | — |
 | E4 | **ExperimentObjective** | R | Primary scientific question | "Effect of temperature on glycosylation" | — |
-| E5 | **InvestigatorName** | M | Lead researcher/operator | Sanne Schoffelen | — |
+| E5 | **InvestigatorName** | M | Lead researcher/operator | Geniffer Editson | — |
 | E6 | **InstitutionName** | M | Performing institution | University of Georgia | — |
 | E7 | **FundingSource** | O | Grant or funding information | NIH R01-GM123456 | — |
 | E8 | **PublicationDOI** | O | Associated publication DOI | 10.1038/s41587-020-0123-4 | — |
