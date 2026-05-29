@@ -198,7 +198,11 @@ Details about the recombinant product (for producer cell lines).
 | PR5 | **QualityType** | M | Quality attribute assessed | Glycosylation, Aggregation | CQ8 |
 | PR6 | **EnsemblGeneID** | O | For protein products: gene ID | ENSG00000197249 | — |
 | PR7 | **UniProtID** | O | Protein database reference | P01009 | — |
-
+| PQ1 | **GlycosylationProfile** | M | Distribution of product glycoforms or glycan species | G0F: 45%, G1F: 38%, G2F: 10%, Man5: 3% | CQ8 |
+| PQ2 | **ChargeVariantProfile** | M | Distribution of acidic, main, and basic product charge variants | Acidic: 18%, Main: 70%, Basic: 12% | CQ8 |
+| PQ3 | **AggregationProfile** | M | Product size variant or aggregate content | Monomer: 97.8%, HMW: 1.5%, LMW: 0.7% | CQ8 |
+| PQ4 | **FragmentationProfile** | M | Product fragmentation or clipping profile | Intact: 96%, Fragmented: 4% | CQ8 |
+| PQ5 | **ProductQualityMethod** | M | Analytical method used to measure the quality attribute | HILIC-UPLC, cIEF, SEC-HPLC, CE-SDS | CQ8 |
 ---
 
 ## 4. Mapping to MCBO Ontology and BMIC
