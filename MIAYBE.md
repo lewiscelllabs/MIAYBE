@@ -169,14 +169,16 @@ Sample collection and state at collection.
 | S9 | **SampleBuffer** | O | Buffer/matrix for purified samples | — | 20 mM Tris, 0.1M NaCl, pH 7.5 | — |
 | S10 | **StorageConditions** | O | Sample preservation | — | -80°C, Liquid N₂ | — |
 | S11 | **ProcessingDelay** | O | Time from collection to processing | min | <30 | — |
-| S12 | **GlucoseConcentration** | M | Glucose concentration measured at the collection timepoint | mM or g/L | 6.0 mM, 1.2 g/L | CQ3 |
-| S13 | **LactateConcentration** | M | Lactate concentration measured at the collection timepoint | mM or g/L | 18 mM, 1.6 g/L | CQ3, CQ7 |
-| S14 | **AmmoniaConcentration** | M | Ammonia or ammonium concentration measured at the collection timepoint | mM | 2.5 mM NH₄⁺ | CQ3, CQ7 |
-| S15 | **TargetedMetaboliteProfile** | M | Concentrations of predefined metabolites measured at the collection timepoint, including amino acids when measured | mM, µM, or relative abundance | Gln: 0.8 mM, Glu: 2.1 mM, Ala: 4.5 mM, pyruvate: 0.2 mM, citrate: 0.1 mM | CQ3, CQ6 |
-| S16 | **TiterAtCollection** | M | Product concentration measured at the collection timepoint | mg/L or µg/mL | 850 mg/L, 250 µg/mL | CQ1, CQ6, CQ8 |
-| S17 | **Osmolality** | M | Culture osmolality measured at the collection timepoint | mOsm/kg | 320 mOsm/kg | CQ1, CQ3 |
-| S18 | **UntargetedMetabolomicsProfile** | O | Broader metabolomics feature profile measured at the collection timepoint | feature intensity or normalized abundance | LC-MS feature table, annotated metabolite list | CQ3, CQ6 |
-| S19 | **MetabolomicsSampleSource** | M | Source material used for metabolomics measurement | — | Spent medium, cell pellet, cell extract, clarified supernatant | CQ3, CQ6 |
+| S12 | **pHAtCollection** | M | Culture pH measured at the collection timepoint | — | 7.05, 6.85 | CQ1 |
+| S13 | **DissolvedOxygenAtCollection** | M | DO measured at the collection timepoint | % air sat. | 40%, 32% | CQ1 |
+| S14 | **GlucoseConcentration** | M | Glucose concentration measured at the collection timepoint | mM or g/L | 6.0 mM, 1.2 g/L | CQ3 |
+| S15 | **LactateConcentration** | M | Lactate concentration measured at the collection timepoint | mM or g/L | 18 mM, 1.6 g/L | CQ3, CQ7 |
+| S16 | **AmmoniaConcentration** | M | Ammonia or ammonium concentration measured at the collection timepoint | mM | 2.5 mM NH₄⁺ | CQ3, CQ7 |
+| S17 | **TargetedMetaboliteProfile** | M | Concentrations of predefined metabolites measured at the collection timepoint, including amino acids when measured | mM, µM, or relative abundance | Gln: 0.8 mM, Glu: 2.1 mM, Ala: 4.5 mM, pyruvate: 0.2 mM | CQ3, CQ6 |
+| S18 | **TiterAtCollection** | M | Product concentration measured at the collection timepoint | mg/L or µg/mL | 850 mg/L, 250 µg/mL | CQ1, CQ6, CQ8 |
+| S19 | **Osmolality** | M | Culture osmolality measured at the collection timepoint | mOsm/kg | 320 mOsm/kg | CQ1, CQ3 |
+| S20 | **UntargetedMetabolomicsProfile** | O | Broader metabolomics feature profile measured at the collection timepoint | feature intensity or normalized abundance | LC-MS feature table, annotated metabolite list | CQ3, CQ6 |
+| S21 | **MetabolomicsSampleSource** | M | Source material used for metabolomics measurement | — | Spent medium, cell pellet, cell extract, clarified supernatant | CQ3, CQ6 |
 
 ### 3.6 Analytical Methods
 
