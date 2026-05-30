@@ -330,6 +330,10 @@ MIAYBE requirements directly support the following MCBO competency questions:
 | CQ6 | Which genes correlate with productivity? | S5 (Phase), PR3 (Titer) | `gene_expression_tpm` + `sample_metadata` |
 | CQ7 | What genes differ by viability threshold? | S4 (Viability %) | `gene_expression_tpm` + `sample_metadata` |
 | CQ8 | Which cell lines have quality profiles? | C1, C4, PR3, PR5 | `sample_metadata` table |
+| CQ-rAAV1 | Which HEK production conditions are associated with high vg titer? | C1, C13-C17, CC1-15, VP1-11, S22, S28 | `sample_metadata` + `vector_titer` |
+| CQ-rAAV2 | Which transfection parameters improve full capsid yield? | VP2-8, PR10-15, S23, S25, PQ6 | `sample_metadata` + `vector_quality` |
+| CQ-rAAV3 | How do HEK lineages differ in vector productivity and potency? | C1, C13, VP1, S22-S24, PQ7 | `sample_metadata` + `vector_titer` + `potency` |
+| CQ-rAAV4 | Which conditions reduce residual DNA/HCP while preserving potency? | VP10-11, A13-14, PQ7-PQ12 | `vector_quality` + `impurities` |
 
 ---
 
