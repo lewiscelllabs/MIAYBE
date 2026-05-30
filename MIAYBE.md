@@ -112,6 +112,8 @@ Complete characterization of the biological material.
 | C10 | **Stability** | O | Expression stability status | Stable >50 generations | — |
 | C11 | **CellBankID** | O | Reference to banked cells | MCB-2020-001 | — |
 | C12 | **ThawDate** | O | Date cells were thawed from bank | 2019-11-29 | — |
+| C13 | **ProducerCellSystem** | M | Production system used by the cell line or process | Transient transfection, Stable producer, Helper-virus based | CQ-rAAV1, CQ-rAAV2 |
+
 
 ### 3.3 Culture Conditions
 
@@ -151,6 +153,13 @@ Operational mode and feeding strategy.
 | P8 | **pHControl** | O | pH control method | CO₂/base addition | — |
 | P9 | **DOControl** | O | DO control method | O₂ sparging | — |
 | P10 | **BleedStrategy** | O | Perfusion bleed rate | 0.5 VVD | — |
+| VP1 | **VectorProductionMode** | R for rAAV | Production strategy used to generate vector | Transient transfection, Stable producer, Helper-virus based | CQ-rAAV1 |
+| VP2 | **TransfectionMethod** | R for transient rAAV | Transfection method or reagent | PEI, Calcium phosphate, Lipid reagent | CQ-rAAV1, CQ-rAAV2 |
+| VP3 | **PlasmidSystem** | R for transient rAAV | Production plasmid configuration | single-plasmid, 2-plasmid, 3-plasmid | CQ-rAAV2 |
+| VP4 | **PlasmidRatio** | R for transient rAAV | Molar Ratio of GOI, rep-cap, and helper plasmids | 1:1:1, 1:1:2 | CQ-rAAV2 |
+| VP5 | **DNAAmountPerVolume** | R for transient rAAV | Total DNA amount normalized to culture volume | 1 µg/mL | CQ-rAAV1, CQ-rAAV2 |
+| VP6 | **ReagentToDNARatio** | M for transient rAAV| Ratio of transfection reagent to DNA | PEI:DNA 3:1 | CQ-rAAV2 |
+| VP8 | **TransfectionTimepoint** | R for transient rAAV | Time of transfection relative to inoculation | 24 h post-inoculation | CQ-rAAV1 |
 
 ### 3.5 Sampling & Time Course
 
@@ -179,6 +188,10 @@ Sample collection and state at collection.
 | S19 | **Osmolality** | M | Culture osmolality measured at the collection timepoint | mOsm/kg | 320 mOsm/kg | CQ1, CQ3 |
 | S20 | **UntargetedMetabolomicsProfile** | O | Broader metabolomics feature profile measured at the collection timepoint | feature intensity or normalized abundance | LC-MS feature table, annotated metabolite list | CQ3, CQ6 |
 | S21 | **MetabolomicsSampleSource** | M | Source material used for metabolomics measurement | — | Spent medium, cell pellet, cell extract, clarified supernatant | CQ3, CQ6 |
+| S22 | **VectorGenomeTiterAtCollection** | R for rAAV | Vector genome concentration measured at the collection timepoint | 1.2e12 vg/mL | CQ-rAAV1 |
+| S23 | **CapsidTiterAtCollection** | M for rAAV| Total capsid concentration measured at the collection timepoint | 3.0e12 capsids/mL | CQ-rAAV2 |
+| S24 | **InfectiousTiterAtCollection** | M for rAAV| Functional infectious titer measured at the collection timepoint | 5.0e9 TU/mL, 2.0e9 IU/mL | CQ-rAAV3 |
+| S25 | **FullCapsidPercentage** | M for rAAV| Percentage of capsids containing full vector genomes | 65% full | CQ-rAAV2 |
 
 ### 3.6 Analytical Methods
 
@@ -194,6 +207,12 @@ Assays and measurements performed.
 | A6 | **SequencingDepth** | M | For RNA-seq: target depth | 20M reads/sample | — |
 | A7 | **DataProcessingPipeline** | O | Analysis software/version | STAR 2.7.9a, Salmon 1.5.0 | — |
 | A8 | **NormalizationMethod** | O | Data normalization approach | TPM, CPM, VST | — |
+| A9 | **GenomeTiterMethod** | R for rAAV | Method used to quantify vector genomes | qPCR, ddPCR | CQ-rAAV1 |
+| A10 | **CapsidTiterMethod** | M for rAAV | Method used to quantify total capsids | ELISA, HPLC | CQ-rAAV2 |
+| A11 | **InfectiousTiterMethod** | M for rAAV | Method used to quantify infectious or transducing units | Transduction assay, Reporter assay | CQ-rAAV3 |
+| A12 | **FullEmptyMethod** | M for rAAV| Method used to measure full, empty, and partial capsids | AUC, TEM, Anion exchange, SEC-MALS | CQ-rAAV2 |
+| A13 | **ResidualDNAMethod** | M for rAAV| Method used to measure residual host-cell or plasmid DNA | qPCR, ddPCR | CQ-rAAV4 |
+| A14 | **PotencyAssay** | O for rAAV | Product-specific functional potency assay | Reporter expression, Transgene expression | CQ-rAAV3, CQ-rAAV4 |
 
 ### 3.7 Product Information
 
@@ -213,6 +232,19 @@ Details about the recombinant product (for producer cell lines).
 | PQ3 | **AggregationProfile** | M | Product size variant or aggregate content | Monomer: 97.8%, HMW: 1.5%, LMW: 0.7% | CQ8 |
 | PQ4 | **FragmentationProfile** | M | Product fragmentation or clipping profile | Intact: 96%, Fragmented: 4% | CQ8 |
 | PQ5 | **ProductQualityMethod** | M | Analytical method used to measure the quality attribute | HILIC-UPLC, cIEF, SEC-HPLC, CE-SDS | CQ8 |
+| PR9 | **VectorType** | R for rAAV | Viral vector class | rAAV, LVV, Adenoviral vector | CQ-rAAV1 |
+| PR10 | **AAVSerotypeCapsid** | R for rAAV | Capsid serotype or engineered capsid identity | AAV2, AAV5, AAV8, AAV9, Engineered capsid | CQ-rAAV2 |
+| PR11 | **VectorGenomeDesign** | R for rAAV | Vector genome configuration | ssAAV, scAAV | CQ-rAAV2 |
+| PR12 | **TransgenePayload** | R for rAAV | Encoded gene or payload | GFP, FIX, CFTR | CQ-rAAV3 |
+| PR14 | **GenomeSize** | M for rAAV | Vector genome length | 4.7 kb | CQ-rAAV2 |
+| PQ6 | **FullEmptyCapsidProfile** | M for rAAV | Distribution of full, empty, and partial capsids | Full: 65%, Empty: 25%, Partial: 10% | CQ-rAAV2 |
+| PQ7 | **VectorPotency** | M for rAAV | Functional product activity | 2e9 TU/mL | CQ-rAAV3 |
+| PQ8 | **ResidualHostCellDNA** | M for rAAV | Residual host-cell DNA level | 10 ng/dose | CQ-rAAV4 |
+| PQ9 | **ResidualPlasmidDNA** | M for rAAV | Residual production plasmid DNA level | 1e5 copies/dose | CQ-rAAV4 |
+| PQ10 | **HostCellProtein** | M for rAAV | Residual HCP level | 50 ppm | CQ-rAAV4 |
+| PQ11 | **ReplicationCompetentAAV** | M for rAAV | RCA test result | Not detected | CQ-rAAV4 |
+| PQ12 | **Endotoxin** | M for rAAV | Endotoxin level | <5 EU/mL | CQ-rAAV4 |
+
 ---
 
 ## 4. Mapping to MCBO Ontology and BMIC
