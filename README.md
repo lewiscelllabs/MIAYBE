@@ -1,5 +1,7 @@
 # MIAYBE — Minimum Information About Your Bioprocessing Experiment
 
+Draft Manuscript: [MIAYBE the Data Will Tell Us](https://lewis.uga.edu/wp-content/uploads/2026/06/MIAYBE-the-Data-Will-Tell-Us.pdf)
+
 A metadata standard and toolchain for describing mammalian cell culture bioprocessing experiments in a way that is unambiguous, machine-readable, and comparable across studies.
 
 ---
