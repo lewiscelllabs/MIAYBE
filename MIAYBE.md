@@ -156,6 +156,9 @@ Operational mode and feeding strategy.
 
 Sample collection and state at collection.
 
+For replicates, SampleAccession can represent the replicate in the id, MIAYBE is agnostic to how replicates are recorded.
+
+
 | ID | Item | Status | Definition | Unit | Example | CQ Mapping |
 |----|------|--------|------------|------|---------|------------|
 | S1 | **SampleAccession** | R | Unique sample identifier | — | CC207_EnM, ERS4805133 | All CQs |
