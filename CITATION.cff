@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use MIAYBE, please cite it as below."
+title: "MIAYBE: Minimum Information About Your Bioprocessing Experiment"
+type: software
+authors:
+  - name: "Lewis Cell Labs"
+repository-code: "https://github.com/lewiscelllabs/MIAYBE"
+url: "https://github.com/lewiscelllabs/MIAYBE"
+abstract: "A metadata standard and toolchain for describing mammalian cell culture bioprocessing experiments in a way that is unambiguous, machine-readable, and comparable across studies."
+license: "MIT"
+date-released: "2026-06-24"
+version: "0.1.0"
+keywords:
+  - bioprocessing
+  - mammalian cell culture
+  - CHO cell culture
+  - metadata standard
+  - minimum information standard
+  - JSON Schema
+  - biologics manufacturing
+  - machine-readable metadata
