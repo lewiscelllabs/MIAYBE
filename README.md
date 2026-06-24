@@ -5,6 +5,13 @@ Draft Manuscript: [MIAYBE the Data Will Tell Us](https://lewis.uga.edu/wp-conten
 A metadata standard and toolchain for describing mammalian cell culture bioprocessing experiments in a way that is unambiguous, machine-readable, and comparable across studies.
 
 ---
+## Citation
+
+If you use MIAYBE, please cite:
+
+Lewis Cell Labs. (2026). *MIAYBE: Minimum Information About Your Bioprocessing Experiment* (v0.1.0) [Computer software]. GitHub. https://github.com/lewiscelllabs/MIAYBE
+
+Once archived on Zenodo, please cite the DOI-listed release.
 
 ## Why does this exist?
 
