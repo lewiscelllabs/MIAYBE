@@ -1,17 +1,13 @@
 # MIAYBE — Minimum Information About Your Bioprocessing Experiment
 
+[![DOI](https://zenodo.org/badge/1168081521.svg)](https://doi.org/10.5281/zenodo.20829996)
+
+
 Draft Manuscript: [MIAYBE the Data Will Tell Us](https://lewis.uga.edu/wp-content/uploads/2026/06/MIAYBE-the-Data-Will-Tell-Us.pdf)
 
 A metadata standard and toolchain for describing mammalian cell culture bioprocessing experiments in a way that is unambiguous, machine-readable, and comparable across studies.
 
 ---
-## Citation
-
-If you use MIAYBE, please cite:
-
-Lewis Cell Labs. (2026). *MIAYBE: Minimum Information About Your Bioprocessing Experiment* (v0.1.0) [Computer software]. GitHub. https://github.com/lewiscelllabs/MIAYBE
-
-Once archived on Zenodo, please cite the DOI-listed release.
 
 ## Why does this exist?
 
@@ -174,3 +170,11 @@ MIAYBE fields map directly to the [MCBO (Mammalian Cell Bioprocessing Ontology)]
 ---
 
 **License**: MIT
+
+---
+
+## Citation
+
+If you use MIAYBE, please cite the archived release:
+
+Lewis Cell Labs. (2026). *MIAYBE: Minimum Information About Your Bioprocessing Experiment* (v0.1.0) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.20829996)
