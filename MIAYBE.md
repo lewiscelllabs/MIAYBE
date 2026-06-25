@@ -225,7 +225,7 @@ Details about the recombinant product (for producer cell lines).
 |----|------|--------|------------|---------|------------|
 | PR1 | **ProductType** | R | Class of product | mAb, IgG1, Fusion protein, AMBP | CQ2, CQ8 |
 | PR2 | **ProductName** | R | Product identifier | Rituximab, hAAT | — |
-| PR3 | **TiterValue** | M | Product concentration | mg/L | 1500 | CQ8 |
+| PR3 | **TiterValue** | M | Product concentration | 1500 mg/L | CQ8 |
 | PR4 | **TiterMethod** | M | Quantification assay | ELISA, Protein A HPLC | — |
 | PR5 | **QualityType** | M | Quality attribute assessed | Glycosylation, Aggregation | CQ8 |
 | PR6 | **EnsemblGeneID** | O | For protein products: gene ID | ENSG00000197249 | — |

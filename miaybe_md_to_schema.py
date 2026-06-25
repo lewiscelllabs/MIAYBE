@@ -26,6 +26,7 @@ import re
 import json
 import sys
 import argparse
+import subprocess
 from pathlib import Path
 
 MISSING_TOKENS = {"", "-", "—", "n/a", "N/A", "NA"}
@@ -159,11 +160,94 @@ def build_property(item_id: str, raw_name: str, status: str,
 
 
 # ---------------------------------------------------------------------------
+# Git provenance
+# ---------------------------------------------------------------------------
+
+def _run_git(args: list[str], cwd: Path) -> str | None:
+    """Run a git command and return stdout (stripped) or None on failure."""
+    try:
+        result = subprocess.run(
+            ["git", *args],
+            cwd=str(cwd),
+            capture_output=True,
+            text=True,
+            check=False,
+        )
+    except (FileNotFoundError, OSError):
+        return None
+    if result.returncode != 0:
+        return None
+    return result.stdout.strip() or None
+
+
+def collect_git_provenance(md_path: Path) -> dict:
+    """Return a dict describing the git provenance of the input markdown file.
+
+    Fields:
+      - file: path to the source file (relative to repo root when possible)
+      - commit: HEAD commit hash of the containing repo, or None
+      - commitShort: 7-char abbreviated commit hash, or None
+      - lastCommit: hash of the last commit that touched the source file, or None
+      - fileBlobSha: `git hash-object` of the file as currently on disk (always set
+        when git is available, regardless of commit state)
+      - dirty: True if the file has uncommitted changes (modified, staged, or
+        untracked) relative to HEAD; False if clean; None if git is unavailable
+      - remoteUrl: origin remote URL if configured, else None
+    """
+    md_path = md_path.resolve()
+    search_dir = md_path.parent if md_path.is_file() else md_path
+
+    repo_root = _run_git(["rev-parse", "--show-toplevel"], search_dir)
+    provenance: dict = {
+        "file": md_path.name,
+        "commit": None,
+        "commitShort": None,
+        "lastCommit": None,
+        "fileBlobSha": None,
+        "dirty": None,
+        "remoteUrl": None,
+    }
+
+    if not repo_root:
+        return provenance
+
+    repo_path = Path(repo_root)
+    try:
+        rel_file = md_path.relative_to(repo_path).as_posix()
+    except ValueError:
+        rel_file = md_path.name
+    provenance["file"] = rel_file
+
+    provenance["commit"] = _run_git(["rev-parse", "HEAD"], repo_path)
+    if provenance["commit"]:
+        provenance["commitShort"] = provenance["commit"][:7]
+
+    provenance["lastCommit"] = _run_git(
+        ["log", "-1", "--format=%H", "--", rel_file], repo_path
+    )
+
+    provenance["fileBlobSha"] = _run_git(["hash-object", rel_file], repo_path)
+
+    status = _run_git(["status", "--porcelain", "--", rel_file], repo_path)
+    if status is not None:
+        provenance["dirty"] = bool(status.strip())
+
+    provenance["remoteUrl"] = _run_git(["config", "--get", "remote.origin.url"], repo_path)
+
+    return provenance
+
+
+# ---------------------------------------------------------------------------
 # Parser
 # ---------------------------------------------------------------------------
 
-def parse_miaybe_md(md_text: str) -> dict:
-    """Parse a MIAYBE markdown file and return a JSON Schema dict."""
+def parse_miaybe_md(md_text: str, provenance: dict | None = None) -> dict:
+    """Parse a MIAYBE markdown file and return a JSON Schema dict.
+
+    `provenance` is an optional dict (see ``collect_git_provenance``) that is
+    embedded under the top-level ``miaybeSource`` key so downstream consumers
+    can verify which version of MIAYBE.md the schema was generated from.
+    """
 
     lines = md_text.splitlines()
 
@@ -178,7 +262,7 @@ def parse_miaybe_md(md_text: str) -> dict:
         if m:
             spec_date = m.group(1).strip("*")
 
-    schema = {
+    schema: dict = {
         "$schema": "https://json-schema.org/draft/2020-12/schema",
         "$id": f"https://github.com/uga-repos/mcbo/schemas/miaybe_{version.replace(' ', '_')}.json",
         "title": f"MIAYBE {version} Dashboard Schema",
@@ -188,10 +272,12 @@ def parse_miaybe_md(md_text: str) -> dict:
             f"Generated from specification dated {spec_date}. "
             "Fields tagged with MIAYBE status: R=required, M=recommended, O=optional."
         ),
-        "type": "object",
-        "required": [],
-        "properties": {},
     }
+    if provenance:
+        schema["miaybeSource"] = provenance
+    schema["type"] = "object"
+    schema["required"] = []
+    schema["properties"] = {}
 
     # -- Walk sections 3.1–3.7 --
     current_section = None
@@ -331,7 +417,8 @@ def main():
         sys.exit(1)
 
     md_text = md_path.read_text(encoding="utf-8")
-    schema = parse_miaybe_md(md_text)
+    provenance = collect_git_provenance(md_path)
+    schema = parse_miaybe_md(md_text, provenance=provenance)
     json_text = json.dumps(schema, indent=args.indent, ensure_ascii=False)
 
     if args.output:

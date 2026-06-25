@@ -3,6 +3,15 @@
   "$id": "https://github.com/uga-repos/mcbo/schemas/miaybe_1.3.json",
   "title": "MIAYBE 1.3 Dashboard Schema",
   "description": "JSON Schema for a data entry dashboard compliant with MIAYBE 1.3 (Minimum Information About Your Bioprocessing Experiment). Generated from specification dated 2026-02-10. Fields tagged with MIAYBE status: R=required, M=recommended, O=optional.",
+  "miaybeSource": {
+    "file": "MIAYBE.md",
+    "commit": "ebbb6fc0b23694747f8604a86be53e84be438a51",
+    "commitShort": "ebbb6fc",
+    "lastCommit": "ebbb6fc0b23694747f8604a86be53e84be438a51",
+    "fileBlobSha": "4cc6de2d5dcfd309629771760f72d4edd267ac51",
+    "dirty": true,
+    "remoteUrl": "git@github.com:lewiscelllabs/MIAYBE.git"
+  },
   "type": "object",
   "required": [
     "experiment",
@@ -232,6 +241,19 @@
           "miaybe": {
             "id": "C12",
             "status": "O"
+          }
+        },
+        "producerCellSystem": {
+          "type": "string",
+          "title": "ProducerCellSystem",
+          "description": "[C13, M] Production system used by the cell line or process",
+          "miaybe": {
+            "id": "C13",
+            "status": "M",
+            "cqMapping": [
+              "CQ-rAAV1",
+              "CQ-rAAV2"
+            ]
           }
         }
       }
@@ -538,6 +560,92 @@
             "id": "P10",
             "status": "O"
           }
+        },
+        "vectorProductionMode": {
+          "type": "string",
+          "title": "VectorProductionMode",
+          "description": "[VP1, R for rAAV] Production strategy used to generate vector",
+          "miaybe": {
+            "id": "VP1",
+            "status": "R for rAAV",
+            "cqMapping": [
+              "CQ-rAAV1"
+            ]
+          }
+        },
+        "transfectionMethod": {
+          "type": "string",
+          "title": "TransfectionMethod",
+          "description": "[VP2, R for transient rAAV] Transfection method or reagent",
+          "miaybe": {
+            "id": "VP2",
+            "status": "R for transient rAAV",
+            "cqMapping": [
+              "CQ-rAAV1",
+              "CQ-rAAV2"
+            ]
+          }
+        },
+        "plasmidSystem": {
+          "type": "string",
+          "title": "PlasmidSystem",
+          "description": "[VP3, R for transient rAAV] Production plasmid configuration",
+          "miaybe": {
+            "id": "VP3",
+            "status": "R for transient rAAV",
+            "cqMapping": [
+              "CQ-rAAV2"
+            ]
+          }
+        },
+        "plasmidRatio": {
+          "type": "string",
+          "title": "PlasmidRatio",
+          "description": "[VP4, R for transient rAAV] Molar Ratio of GOI, rep-cap, and helper plasmids",
+          "miaybe": {
+            "id": "VP4",
+            "status": "R for transient rAAV",
+            "cqMapping": [
+              "CQ-rAAV2"
+            ]
+          }
+        },
+        "dnaAmountPerVolume": {
+          "type": "string",
+          "title": "DNAAmountPerVolume",
+          "description": "[VP5, R for transient rAAV] Total DNA amount normalized to culture volume",
+          "miaybe": {
+            "id": "VP5",
+            "status": "R for transient rAAV",
+            "cqMapping": [
+              "CQ-rAAV1",
+              "CQ-rAAV2"
+            ]
+          }
+        },
+        "reagentToDNARatio": {
+          "type": "string",
+          "title": "ReagentToDNARatio",
+          "description": "[VP6, M for transient rAAV] Ratio of transfection reagent to DNA",
+          "miaybe": {
+            "id": "VP6",
+            "status": "M for transient rAAV",
+            "cqMapping": [
+              "CQ-rAAV2"
+            ]
+          }
+        },
+        "transfectionTimepoint": {
+          "type": "string",
+          "title": "TransfectionTimepoint",
+          "description": "[VP8, R for transient rAAV] Time of transfection relative to inoculation",
+          "miaybe": {
+            "id": "VP8",
+            "status": "R for transient rAAV",
+            "cqMapping": [
+              "CQ-rAAV1"
+            ]
+          }
         }
       }
     },
@@ -696,6 +804,196 @@
               "status": "O",
               "unit": "min"
             }
+          },
+          "pHAtCollection": {
+            "type": "string",
+            "title": "pHAtCollection",
+            "description": "[S12, M] Culture pH measured at the collection timepoint",
+            "miaybe": {
+              "id": "S12",
+              "status": "M",
+              "cqMapping": [
+                "CQ1"
+              ]
+            }
+          },
+          "dissolvedOxygenAtCollection_airsat": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "title": "DissolvedOxygenAtCollection (% air sat.)",
+            "description": "[S13, M] DO measured at the collection timepoint",
+            "miaybe": {
+              "id": "S13",
+              "status": "M",
+              "unit": "% air sat.",
+              "cqMapping": [
+                "CQ1"
+              ]
+            }
+          },
+          "glucoseConcentration_mMorgL": {
+            "type": "number",
+            "minimum": 0,
+            "title": "GlucoseConcentration (mM or g/L)",
+            "description": "[S14, M] Glucose concentration measured at the collection timepoint",
+            "miaybe": {
+              "id": "S14",
+              "status": "M",
+              "unit": "mM or g/L",
+              "cqMapping": [
+                "CQ3"
+              ]
+            }
+          },
+          "lactateConcentration_mMorgL": {
+            "type": "number",
+            "minimum": 0,
+            "title": "LactateConcentration (mM or g/L)",
+            "description": "[S15, M] Lactate concentration measured at the collection timepoint",
+            "miaybe": {
+              "id": "S15",
+              "status": "M",
+              "unit": "mM or g/L",
+              "cqMapping": [
+                "CQ3",
+                "CQ7"
+              ]
+            }
+          },
+          "ammoniaConcentration_mM": {
+            "type": "number",
+            "minimum": 0,
+            "title": "AmmoniaConcentration (mM)",
+            "description": "[S16, M] Ammonia or ammonium concentration measured at the collection timepoint",
+            "miaybe": {
+              "id": "S16",
+              "status": "M",
+              "unit": "mM",
+              "cqMapping": [
+                "CQ3",
+                "CQ7"
+              ]
+            }
+          },
+          "targetedMetaboliteProfile_mMMorrelativeabundance": {
+            "type": "number",
+            "minimum": 0,
+            "title": "TargetedMetaboliteProfile (mM, µM, or relative abundance)",
+            "description": "[S17, M] Concentrations of predefined metabolites measured at the collection timepoint, including amino acids when measured",
+            "miaybe": {
+              "id": "S17",
+              "status": "M",
+              "unit": "mM, µM, or relative abundance",
+              "cqMapping": [
+                "CQ3",
+                "CQ6"
+              ]
+            }
+          },
+          "titerAtCollection_mgLorgmL": {
+            "type": "number",
+            "minimum": 0,
+            "title": "TiterAtCollection (mg/L or µg/mL)",
+            "description": "[S18, M] Product concentration measured at the collection timepoint",
+            "miaybe": {
+              "id": "S18",
+              "status": "M",
+              "unit": "mg/L or µg/mL",
+              "cqMapping": [
+                "CQ1",
+                "CQ6",
+                "CQ8"
+              ]
+            }
+          },
+          "osmolality_mOsmkg": {
+            "type": "number",
+            "minimum": 0,
+            "title": "Osmolality (mOsm/kg)",
+            "description": "[S19, M] Culture osmolality measured at the collection timepoint",
+            "miaybe": {
+              "id": "S19",
+              "status": "M",
+              "unit": "mOsm/kg",
+              "cqMapping": [
+                "CQ1",
+                "CQ3"
+              ]
+            }
+          },
+          "untargetedMetabolomicsProfile_featureintensityornormalizedabundance": {
+            "type": "number",
+            "minimum": 0,
+            "title": "UntargetedMetabolomicsProfile (feature intensity or normalized abundance)",
+            "description": "[S20, O] Broader metabolomics feature profile measured at the collection timepoint",
+            "miaybe": {
+              "id": "S20",
+              "status": "O",
+              "unit": "feature intensity or normalized abundance",
+              "cqMapping": [
+                "CQ3",
+                "CQ6"
+              ]
+            }
+          },
+          "metabolomicsSampleSource": {
+            "type": "string",
+            "title": "MetabolomicsSampleSource",
+            "description": "[S21, M] Source material used for metabolomics measurement",
+            "miaybe": {
+              "id": "S21",
+              "status": "M",
+              "cqMapping": [
+                "CQ3",
+                "CQ6"
+              ]
+            }
+          },
+          "vectorGenomeTiterAtCollection_12e12vgmL": {
+            "type": "number",
+            "minimum": 0,
+            "title": "VectorGenomeTiterAtCollection (1.2e12 vg/mL)",
+            "description": "[S22, R for rAAV] Vector genome concentration measured at the collection timepoint",
+            "miaybe": {
+              "id": "S22",
+              "status": "R for rAAV",
+              "unit": "1.2e12 vg/mL"
+            }
+          },
+          "capsidTiterAtCollection_30e12capsidsmL": {
+            "type": "number",
+            "minimum": 0,
+            "title": "CapsidTiterAtCollection (3.0e12 capsids/mL)",
+            "description": "[S23, M for rAAV] Total capsid concentration measured at the collection timepoint",
+            "miaybe": {
+              "id": "S23",
+              "status": "M for rAAV",
+              "unit": "3.0e12 capsids/mL"
+            }
+          },
+          "infectiousTiterAtCollection_50e9TUmL20e9IUmL": {
+            "type": "number",
+            "minimum": 0,
+            "title": "InfectiousTiterAtCollection (5.0e9 TU/mL, 2.0e9 IU/mL)",
+            "description": "[S24, M for rAAV] Functional infectious titer measured at the collection timepoint",
+            "miaybe": {
+              "id": "S24",
+              "status": "M for rAAV",
+              "unit": "5.0e9 TU/mL, 2.0e9 IU/mL"
+            }
+          },
+          "fullCapsidPercentage_65full": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 100,
+            "title": "FullCapsidPercentage (65% full)",
+            "description": "[S25, M for rAAV] Percentage of capsids containing full vector genomes",
+            "miaybe": {
+              "id": "S25",
+              "status": "M for rAAV",
+              "unit": "65% full"
+            }
           }
         }
       }
@@ -802,6 +1100,79 @@
               "id": "A8",
               "status": "O"
             }
+          },
+          "genomeTiterMethod": {
+            "type": "string",
+            "title": "GenomeTiterMethod",
+            "description": "[A9, R for rAAV] Method used to quantify vector genomes",
+            "miaybe": {
+              "id": "A9",
+              "status": "R for rAAV",
+              "cqMapping": [
+                "CQ-rAAV1"
+              ]
+            }
+          },
+          "capsidTiterMethod": {
+            "type": "string",
+            "title": "CapsidTiterMethod",
+            "description": "[A10, M for rAAV] Method used to quantify total capsids",
+            "miaybe": {
+              "id": "A10",
+              "status": "M for rAAV",
+              "cqMapping": [
+                "CQ-rAAV2"
+              ]
+            }
+          },
+          "infectiousTiterMethod": {
+            "type": "string",
+            "title": "InfectiousTiterMethod",
+            "description": "[A11, M for rAAV] Method used to quantify infectious or transducing units",
+            "miaybe": {
+              "id": "A11",
+              "status": "M for rAAV",
+              "cqMapping": [
+                "CQ-rAAV3"
+              ]
+            }
+          },
+          "fullEmptyMethod": {
+            "type": "string",
+            "title": "FullEmptyMethod",
+            "description": "[A12, M for rAAV] Method used to measure full, empty, and partial capsids",
+            "miaybe": {
+              "id": "A12",
+              "status": "M for rAAV",
+              "cqMapping": [
+                "CQ-rAAV2"
+              ]
+            }
+          },
+          "residualDNAMethod": {
+            "type": "string",
+            "title": "ResidualDNAMethod",
+            "description": "[A13, M for rAAV] Method used to measure residual host-cell or plasmid DNA",
+            "miaybe": {
+              "id": "A13",
+              "status": "M for rAAV",
+              "cqMapping": [
+                "CQ-rAAV4"
+              ]
+            }
+          },
+          "potencyAssay": {
+            "type": "string",
+            "title": "PotencyAssay",
+            "description": "[A14, O for rAAV] Product-specific functional potency assay",
+            "miaybe": {
+              "id": "A14",
+              "status": "O for rAAV",
+              "cqMapping": [
+                "CQ-rAAV3",
+                "CQ-rAAV4"
+              ]
+            }
           }
         }
       }
@@ -846,7 +1217,7 @@
             "id": "PR3",
             "status": "M",
             "cqMapping": [
-              "1500"
+              "CQ8"
             ]
           }
         },
@@ -889,6 +1260,210 @@
           "miaybe": {
             "id": "PR7",
             "status": "O"
+          }
+        },
+        "glycosylationProfile": {
+          "type": "string",
+          "title": "GlycosylationProfile",
+          "description": "[PQ1, M] Distribution of product glycoforms or glycan species",
+          "miaybe": {
+            "id": "PQ1",
+            "status": "M",
+            "cqMapping": [
+              "CQ8"
+            ]
+          }
+        },
+        "chargeVariantProfile": {
+          "type": "string",
+          "title": "ChargeVariantProfile",
+          "description": "[PQ2, M] Distribution of acidic, main, and basic product charge variants",
+          "miaybe": {
+            "id": "PQ2",
+            "status": "M",
+            "cqMapping": [
+              "CQ8"
+            ]
+          }
+        },
+        "aggregationProfile": {
+          "type": "string",
+          "title": "AggregationProfile",
+          "description": "[PQ3, M] Product size variant or aggregate content",
+          "miaybe": {
+            "id": "PQ3",
+            "status": "M",
+            "cqMapping": [
+              "CQ8"
+            ]
+          }
+        },
+        "fragmentationProfile": {
+          "type": "string",
+          "title": "FragmentationProfile",
+          "description": "[PQ4, M] Product fragmentation or clipping profile",
+          "miaybe": {
+            "id": "PQ4",
+            "status": "M",
+            "cqMapping": [
+              "CQ8"
+            ]
+          }
+        },
+        "productQualityMethod": {
+          "type": "string",
+          "title": "ProductQualityMethod",
+          "description": "[PQ5, M] Analytical method used to measure the quality attribute",
+          "miaybe": {
+            "id": "PQ5",
+            "status": "M",
+            "cqMapping": [
+              "CQ8"
+            ]
+          }
+        },
+        "vectorType": {
+          "type": "string",
+          "title": "VectorType",
+          "description": "[PR9, R for rAAV] Viral vector class",
+          "miaybe": {
+            "id": "PR9",
+            "status": "R for rAAV",
+            "cqMapping": [
+              "CQ-rAAV1"
+            ]
+          }
+        },
+        "aavSerotypeCapsid": {
+          "type": "string",
+          "title": "AAVSerotypeCapsid",
+          "description": "[PR10, R for rAAV] Capsid serotype or engineered capsid identity",
+          "miaybe": {
+            "id": "PR10",
+            "status": "R for rAAV",
+            "cqMapping": [
+              "CQ-rAAV2"
+            ]
+          }
+        },
+        "vectorGenomeDesign": {
+          "type": "string",
+          "title": "VectorGenomeDesign",
+          "description": "[PR11, R for rAAV] Vector genome configuration",
+          "miaybe": {
+            "id": "PR11",
+            "status": "R for rAAV",
+            "cqMapping": [
+              "CQ-rAAV2"
+            ]
+          }
+        },
+        "transgenePayload": {
+          "type": "string",
+          "title": "TransgenePayload",
+          "description": "[PR12, R for rAAV] Encoded gene or payload",
+          "miaybe": {
+            "id": "PR12",
+            "status": "R for rAAV",
+            "cqMapping": [
+              "CQ-rAAV3"
+            ]
+          }
+        },
+        "genomeSize": {
+          "type": "string",
+          "title": "GenomeSize",
+          "description": "[PR14, M for rAAV] Vector genome length",
+          "miaybe": {
+            "id": "PR14",
+            "status": "M for rAAV",
+            "cqMapping": [
+              "CQ-rAAV2"
+            ]
+          }
+        },
+        "fullEmptyCapsidProfile": {
+          "type": "string",
+          "title": "FullEmptyCapsidProfile",
+          "description": "[PQ6, M for rAAV] Distribution of full, empty, and partial capsids",
+          "miaybe": {
+            "id": "PQ6",
+            "status": "M for rAAV",
+            "cqMapping": [
+              "CQ-rAAV2"
+            ]
+          }
+        },
+        "vectorPotency": {
+          "type": "string",
+          "title": "VectorPotency",
+          "description": "[PQ7, M for rAAV] Functional product activity",
+          "miaybe": {
+            "id": "PQ7",
+            "status": "M for rAAV",
+            "cqMapping": [
+              "CQ-rAAV3"
+            ]
+          }
+        },
+        "residualHostCellDNA": {
+          "type": "string",
+          "title": "ResidualHostCellDNA",
+          "description": "[PQ8, M for rAAV] Residual host-cell DNA level",
+          "miaybe": {
+            "id": "PQ8",
+            "status": "M for rAAV",
+            "cqMapping": [
+              "CQ-rAAV4"
+            ]
+          }
+        },
+        "residualPlasmidDNA": {
+          "type": "string",
+          "title": "ResidualPlasmidDNA",
+          "description": "[PQ9, M for rAAV] Residual production plasmid DNA level",
+          "miaybe": {
+            "id": "PQ9",
+            "status": "M for rAAV",
+            "cqMapping": [
+              "CQ-rAAV4"
+            ]
+          }
+        },
+        "hostCellProtein": {
+          "type": "string",
+          "title": "HostCellProtein",
+          "description": "[PQ10, M for rAAV] Residual HCP level",
+          "miaybe": {
+            "id": "PQ10",
+            "status": "M for rAAV",
+            "cqMapping": [
+              "CQ-rAAV4"
+            ]
+          }
+        },
+        "replicationCompetentAAV": {
+          "type": "string",
+          "title": "ReplicationCompetentAAV",
+          "description": "[PQ11, M for rAAV] RCA test result",
+          "miaybe": {
+            "id": "PQ11",
+            "status": "M for rAAV",
+            "cqMapping": [
+              "CQ-rAAV4"
+            ]
+          }
+        },
+        "endotoxin": {
+          "type": "string",
+          "title": "Endotoxin",
+          "description": "[PQ12, M for rAAV] Endotoxin level",
+          "miaybe": {
+            "id": "PQ12",
+            "status": "M for rAAV",
+            "cqMapping": [
+              "CQ-rAAV4"
+            ]
           }
         }
       }
